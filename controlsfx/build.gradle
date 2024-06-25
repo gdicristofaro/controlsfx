@@ -1,5 +1,7 @@
 plugins {
     id 'biz.aQute.bnd.builder'
+    id("maven-publish")
+    id ("signing")
 }
 
 ext {
@@ -165,3 +167,20 @@ task deleteUtf8Files(type: Delete) {
 processResources.dependsOn(downloadTranslations)
 downloadTranslations.dependsOn(native2ascii)
 native2ascii.dependsOn(deleteUtf8Files)
+
+signing {
+    sign publishing.publications.mavenJava
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/gdicristofaro/controlsfx")
+            credentials {
+                username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+                password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
+            }
+        }
+    }
+}
