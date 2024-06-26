@@ -175,12 +175,8 @@ signing {
 publishing {
     repositories {
         maven {
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/gdicristofaro/controlsfx")
-            credentials {
-                username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
-                password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
-            }
+            name = "LocalStore"
+            url = uri(project.findProperty("localstore"))
         }
     }
 }
